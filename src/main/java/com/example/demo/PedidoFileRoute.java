@@ -10,7 +10,7 @@ import java.io.*;
 @Component
 public class PedidoFileRoute extends RouteBuilder {
 
-    private static final String EXPECTED_HEADER = "id_cliente,nombre_cliente,tipo_cliente,monto_compra"; // Adjust headers
+    private static final String EXPECTED_HEADER = "id_cliente,nombre_cliente,tipo_cliente,monto_compra";
 
     @Override
     public void configure() {

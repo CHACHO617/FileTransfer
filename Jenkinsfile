@@ -2,23 +2,27 @@ pipeline {
     agent any
 
     stages {
-        stage('Clonar repositorio') {
-            steps {
-                git 'https://github.com/CHACHO617/FileTransfer.git'
-            }
-        }
-
         stage('Verificar estructura del proyecto') {
             steps {
                 echo "📁 Listando archivos en el proyecto"
                 bat 'dir'
+                bat 'git branch'
+                bat 'git log -1'
             }
         }
 
         stage('Step 2 - Ejecutar aplicación Spring Boot') {
             steps {
-                echo "🚀 Iniciando Spring Boot..."
-                bat 'mvn spring-boot:run'
+                script {
+                    echo "🚀 Verificando si existe pom.xml..."
+                    def pomExists = fileExists('pom.xml')
+                    if (pomExists) {
+                        echo "✅ pom.xml encontrado. Iniciando Spring Boot..."
+                        bat 'mvn spring-boot:run'
+                    } else {
+                        error("❌ No se encontró el archivo pom.xml. Abortando ejecución.")
+                    }
+                }
             }
         }
     }
